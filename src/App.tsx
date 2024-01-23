@@ -13,6 +13,7 @@ import DisplayPost from './pages/PostDisplay';
 import Comment from './pages/Comment';
 import Login from './pages/Login';
 import PostUpdate from './pages/PostUpdate';
+import CommentUpdate from './pages/CommentUpdate';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path="/postdisplay/:postId/comment" element={<Comment />} />
       <Route path="/login" element={<Login />} />
       <Route path="/postupdate/:postId" element={<PostUpdate />} />
+      <Route path="/postdisplay/:postId/commentupdate/:commentId" element={<CommentUpdate />} />
       </Routes>
     </div>
     </Router>
