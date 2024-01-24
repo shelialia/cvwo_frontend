@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 
 const PostDisplay = () => {
   const { postId } = useParams();
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,10 +37,10 @@ const PostDisplay = () => {
                 fontWeight='bold'
                     sx={{ whiteSpace: 'nowrap', marginTop: '50px', marginBottom: '20px' }}
                 >
-                {post['topic'] ? post['topic'] : 'No Topic'}
+                {post['post']['topic'] ? post['post']['topic'] : 'No Topic'}
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph sx = {{textAlign: "center"}}>
-              {post['content'] ? post['content'] : 'No Topic'}
+              {post['post']['content'] ? post['post']['content'] : 'No Content'}
               </Typography>
         </div>
           )}

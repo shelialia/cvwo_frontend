@@ -7,6 +7,8 @@ import { styled } from '@mui/system';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import TagBox from '../components/TagBox';
+import { Typography } from '@mui/material';
 
 const blue = {
     500: '#007FFF',
@@ -53,6 +55,7 @@ const Post = () => {
     const [formData, setFormData] = useState({
         topic: '',
         content: '',
+        tag_names: '',
       });
     
     
@@ -60,6 +63,18 @@ const Post = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
       };      
     
+      const handleTagChange = (tag: string) => {
+        const tagsArray = formData.tag_names.split(',').map((tag) => tag.trim());
+        const updatedTags = tagsArray.includes(tag)
+          ? tagsArray.filter((existingTag) => existingTag !== tag)
+          : [...tagsArray, tag];
+      
+        const updatedTagString = updatedTags.join(', ');
+      
+        setFormData({ ...formData, tag_names: updatedTagString });
+      };
+      
+
     const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
@@ -102,11 +117,13 @@ const Post = () => {
                 alignItems="center"
                 minHeight="50vh"
                 minWidth="100vw"
+                marginTop={10}
             >
                 {/* BEGIN: ed8c6549bwf9 */}
                 <CreatePost title="Topic*" type="text" name="topic" value={formData.topic} onChange={handleChange} />
                 <CreatePost title="Content*" type="text" name="content" value={formData.content} onChange={handleChange} />
                 {/* END: ed8c6549bwf9 */}
+                <TagBox value={formData.tag_names} onChange={handleTagChange}/>
                 <Button onClick={handleSubmit} slots={{ root: 'span' }} style={{ marginTop: '20px' }}>
                     Create Post
                 </Button>

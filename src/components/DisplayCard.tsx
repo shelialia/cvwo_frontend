@@ -11,6 +11,19 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+import SchoolIcon from '@mui/icons-material/School';
+import CheckroomIcon from '@mui/icons-material/Checkroom';
+import CelebrationIcon from '@mui/icons-material/Celebration';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import ComputerIcon from '@mui/icons-material/Computer';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import CardTravelIcon from '@mui/icons-material/CardTravel';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 
 interface Post {
   id: number;
@@ -19,6 +32,7 @@ interface Post {
   user: {
     name: string;
   };
+  tag_names: string;
   // Add other attributes as needed
 }
 interface SingleCardProps {
@@ -44,6 +58,61 @@ function SingleCard({ post, onDelete }: SingleCardProps) {
       }
     }
 
+    const tagsString = post.tag_names;
+    console.log(tagsString);
+
+    function cleanTagsString(tagNames: string): string[] {
+      if (tagNames !== null) {
+        // Remove leading and trailing commas, replace consecutive commas with a single comma
+        const cleanedString = tagNames.replace(/^,|,$|,+/g, ',');
+    
+        // Split the string into an array using commas
+        const tagsArray = cleanedString.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+    
+        // Helper function to remove duplicates
+        const removeDuplicates = (arr: string[]): string[] => {
+          return arr.filter((value, index, self) => self.indexOf(value) === index);
+        };
+    
+        // Remove duplicates from the array
+        const uniqueTags = removeDuplicates(tagsArray);
+    
+        return uniqueTags;
+      }
+      return [];
+    }
+
+    // Example usage:
+    const cleanedString = cleanTagsString(tagsString);
+    console.log(cleanedString);
+
+    const handleIcon = (tag: string) => {
+      switch (tag.toLowerCase()) {
+        case 'gaming':
+          return <VideogameAssetIcon />;
+        case 'academic':
+          return <SchoolIcon />;
+        case 'fashion':
+          return <CheckroomIcon />;
+        case 'memes':
+          return <CelebrationIcon />;
+        case 'music':
+          return <MusicNoteIcon />;
+        case 'tech':
+          return <ComputerIcon />;
+        case 'news':
+          return <NewspaperIcon />;
+        case 'sports':
+          return <SportsEsportsIcon />;
+        case 'travel':
+          return <CardTravelIcon />;
+        case 'tv & movies':
+          return <LocalMoviesIcon />;
+        case 'others':
+          return <MiscellaneousServicesIcon />;
+      }
+    };    
+
   return (
     <Card sx={{ width: 320 }}>
       <div>
@@ -64,14 +133,19 @@ function SingleCard({ post, onDelete }: SingleCardProps) {
           </div>
         </IconButton>
       </div>
-      <AspectRatio minHeight="120px" maxHeight="200px">
+      <Stack direction="row" spacing={1}>
+        {cleanedString.map((tag, index) => (
+          <Chip icon={handleIcon(tag)} label={tag} color='secondary'/>
+        ))}
+    </Stack>
+      {/* <AspectRatio minHeight="120px" maxHeight="200px">
         <img
           src="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286"
           srcSet="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286&dpr=2 2x"
           loading="lazy"
           alt=""
         />
-      </AspectRatio>
+      </AspectRatio> */}
       <CardContent orientation="horizontal">
         <div>
           <Typography className="body-xs">Author: {post.user.name}</Typography>

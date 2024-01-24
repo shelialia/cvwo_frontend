@@ -47,7 +47,6 @@ function SingleCard({ comment, onDeleteComment}: SingleCardProps) {
     fetchData();
   }, [comment.user_id]);
 
-
   const handleDelete = async () => {
     try {
       // Make an API request to delete the comment
@@ -72,7 +71,7 @@ function SingleCard({ comment, onDeleteComment}: SingleCardProps) {
         >
           <div style={{ display: 'flex', gap: '8px' }}>
             <Link to={`/postdisplay/${postId}/commentupdate/${comment.id}`}>
-            <EditIcon />
+            <EditIcon color='action'/>
             </Link> 
             <DeleteOutlineIcon onClick={handleDelete}/>
           </div>
