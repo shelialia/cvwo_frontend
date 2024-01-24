@@ -165,7 +165,7 @@ function SingleCard({ post, onDelete }: SingleCardProps) {
   );
 }
 
-const Display = () => {
+const Display = ({ selectedTags }: any) => {
     const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
@@ -186,10 +186,14 @@ const Display = () => {
       setPosts((prevPosts) => prevPosts.filter((prevPost) => prevPost.id !== postId));
     };
 
+    const filteredPosts = selectedTags.length > 0
+    ? posts.filter(post => post.tag_names.split(',').some(tag => selectedTags.includes(tag.trim())))
+    : posts;
+
     return (
       <div className="mx-auto" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
         <Grid container spacing={2} sx={{ flexGrow: 1, width: '100%', padding: 0 }} justifyContent="center">
-          {posts.map((post, index) => (
+          {filteredPosts.map((post, index) => (
             <Grid key={index} xs={3}>
               <SingleCard post={post} onDelete={handleDeletePost} />
             </Grid>
